@@ -1,11 +1,13 @@
 package com.courses.zonelearn.modules.course.entities;
 
-import com.courses.zonelearn.enums.Status;
+import com.courses.zonelearn.modules.course.enums.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
@@ -20,12 +22,12 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    @Length(min = 15, max = 100, message = "The [name] field must contain between 6 and 100 characters ")
+    @NotBlank(message = "Name cannot be blank")
     private String name;
 
+    @NotBlank(message = "Category cannot be blank")
     private String category;
-    private Status status;
+    private Status status = Status.ACTIVE;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
