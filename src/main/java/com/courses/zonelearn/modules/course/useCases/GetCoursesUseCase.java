@@ -29,7 +29,7 @@ public class GetCoursesUseCase {
         }
 
         return courses.stream().map(course -> {
-            return new CourseDTO(course.getName(), course.getCategory(), course.getStatus(), course.getUpdatedAt());
+            return new CourseDTO(course.getId(), course.getName(), course.getCategory(), course.getStatus(), course.getUpdatedAt());
         }).collect(Collectors.toList());
     }
 }
