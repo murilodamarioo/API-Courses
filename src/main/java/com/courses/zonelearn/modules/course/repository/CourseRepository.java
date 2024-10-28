@@ -8,8 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CourseRepository extends JpaRepository<Course, UUID> {
-    Optional<List<Course>> findByNameOrCategory(String name, String category);
-
     List<Course> findByNameContainingIgnoreCase(String name);
     List<Course> findByCategoryContainingIgnoreCase(String category);
     List<Course> findByNameContainingIgnoreCaseOrCategoryContainingIgnoreCase(String name, String category);
