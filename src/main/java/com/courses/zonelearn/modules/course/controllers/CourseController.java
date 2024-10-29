@@ -2,10 +2,7 @@ package com.courses.zonelearn.modules.course.controllers;
 
 import com.courses.zonelearn.modules.course.dto.UpdateRequestCourseDTO;
 import com.courses.zonelearn.modules.course.entities.Course;
-import com.courses.zonelearn.modules.course.useCases.CreateCourseUseCase;
-import com.courses.zonelearn.modules.course.useCases.DeleteCourseUseCase;
-import com.courses.zonelearn.modules.course.useCases.GetCoursesUseCase;
-import com.courses.zonelearn.modules.course.useCases.UpdateCourseUseCase;
+import com.courses.zonelearn.modules.course.useCases.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +27,9 @@ public class CourseController {
     @Autowired
     private UpdateCourseUseCase updateCourseUseCase;
 
+    @Autowired
+    private ToggleCourseUseCase toggleCourseUseCase;
+
     @PostMapping("/")
     public ResponseEntity<Object> create(@Valid @RequestBody Course courseRecords) {
         var response = this.createCourseUseCase.execute(courseRecords);
@@ -51,6 +51,12 @@ public class CourseController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> put(@PathVariable UUID id, @RequestBody UpdateRequestCourseDTO request) {
         var response = this.updateCourseUseCase.execute(id, request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PatchMapping("/{id}/active")
+    public ResponseEntity<Course> patch(@PathVariable UUID id) {
+        var response = this.toggleCourseUseCase.execute(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
