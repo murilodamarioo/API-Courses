@@ -2,6 +2,7 @@ package com.courses.zonelearn.infra;
 
 import com.courses.zonelearn.exceptions.CourseNotFoundException;
 import com.courses.zonelearn.exceptions.FieldsException;
+import com.courses.zonelearn.exceptions.UserFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
@@ -27,6 +28,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TransactionSystemException.class)
     private ResponseEntity<RestErrorMessage> invalidContentField(TransactionSystemException exception) {
+        var threatResponse = new RestErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatResponse);
+    }
+
+    @ExceptionHandler(UserFoundException.class)
+    private ResponseEntity<RestErrorMessage> userFoundException(UserFoundException exception) {
         var threatResponse = new RestErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatResponse);
     }
