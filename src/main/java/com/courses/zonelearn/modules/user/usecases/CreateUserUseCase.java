@@ -1,7 +1,7 @@
 package com.courses.zonelearn.modules.user.usecases;
 
+import com.courses.zonelearn.exceptions.FieldsException;
 import com.courses.zonelearn.exceptions.UserFoundException;
-import com.courses.zonelearn.modules.user.dto.RegisterDTO;
 import com.courses.zonelearn.modules.user.entities.User;
 import com.courses.zonelearn.modules.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +17,22 @@ public class CreateUserUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User execute(RegisterDTO registerDTO) {
-        this.repository.findByEmail(registerDTO.getEmail())
+    public User execute(User register) {
+        if (register.getFirstName().isEmpty()) {
+            throw new FieldsException("First name is required");
+        }
+        if (register.getPassword().length() < 6) {
+            throw new FieldsException("Password must be at least 6 characters long");
+        }
+
+        this.repository.findByEmail(register.getEmail())
                 .ifPresent((user) -> {
                    throw new UserFoundException("E-mail linked to another user");
                 });
 
-        User user = new User();
-        user.setFirstName(registerDTO.getFirstName());
-        user.setLastName(registerDTO.getLastName());
-        user.setRole(registerDTO.getRole());
-        user.setEmail(registerDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+        var password = passwordEncoder.encode(register.getPassword());
+        register.setPassword(password);
 
-        return this.repository.save(user);
+        return this.repository.save(register);
     }
 }
