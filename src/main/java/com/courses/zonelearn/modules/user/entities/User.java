@@ -2,10 +2,11 @@ package com.courses.zonelearn.modules.user.entities;
 
 import com.courses.zonelearn.modules.user.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Data;
 
 @Data
-@Entity(name = "user")
+@Entity(name = "users")
 public class User {
 
     @Id
@@ -14,9 +15,11 @@ public class User {
 
     private String firstName;
     private String lastName;
+
+    @Email(message = "Type a valid e-mail")
     private String email;
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.STUDENT;
 }
