@@ -41,8 +41,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EmailOrPasswordInvalidException.class)
     private ResponseEntity<RestErrorMessage> emailOrPasswordInvalidException(EmailOrPasswordInvalidException exception) {
-        var threatResponse = new RestErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatResponse);
+        var threatResponse = new RestErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(threatResponse);
     }
 
 }
