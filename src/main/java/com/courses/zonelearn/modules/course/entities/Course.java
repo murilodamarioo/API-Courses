@@ -19,6 +19,8 @@ public class Course {
     private UUID id;
     @NotBlank(message = "Name cannot be blank")
     private String name;
+    private UUID createdBy;
+    private String teacher;
 
     @NotBlank(message = "Category cannot be blank")
     private String category;

@@ -5,13 +5,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Entity(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
 
     private String firstName;
     private String lastName;
