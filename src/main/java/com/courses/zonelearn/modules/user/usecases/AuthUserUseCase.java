@@ -40,7 +40,6 @@ public class AuthUserUseCase {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         // Generate token
-
         return JWT.create()
                 .withIssuer("@zonelearn")
                 .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
