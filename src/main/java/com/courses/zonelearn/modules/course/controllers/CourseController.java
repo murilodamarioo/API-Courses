@@ -30,13 +30,13 @@ public class CourseController {
     @Autowired
     private ToggleCourseUseCase toggleCourseUseCase;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Object> create(@Valid @RequestBody Course courseRecords) {
         var response = this.createCourseUseCase.execute(courseRecords);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<Object> get(@RequestParam(required = false) String name, @RequestParam(required = false) String category) {
         var response = this.getCoursesUseCase.execute(name, category);
         return ResponseEntity.status(HttpStatus.OK).body(response);
