@@ -43,6 +43,7 @@ public class AuthUserUseCase {
         return JWT.create()
                 .withIssuer("@zonelearn")
                 .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
+                .withClaim("role", user.getRole().name())
                 .withSubject(user.getId())
                 .sign(algorithm);
     }
