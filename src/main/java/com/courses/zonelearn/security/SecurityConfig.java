@@ -25,7 +25,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/user/auth").permitAll()
                             .requestMatchers("/user").permitAll()
-                            .requestMatchers(HttpMethod.GET,"/courses").permitAll();
+                            .requestMatchers(HttpMethod.GET, "/courses/list").permitAll()
+                            .requestMatchers(HttpMethod.PATCH, "/courses/{id}/active").hasRole("TEACHER")
+                            .requestMatchers(HttpMethod.POST, "/courses").hasRole("TEACHER")
+                            .requestMatchers(HttpMethod.PUT, "/courses/{id}").hasRole("TEACHER")
+                            .requestMatchers(HttpMethod.DELETE, "/courses/{id}").hasRole("TEACHER");
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
