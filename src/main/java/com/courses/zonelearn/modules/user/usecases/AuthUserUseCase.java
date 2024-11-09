@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.naming.AuthenticationException;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -44,7 +43,7 @@ public class AuthUserUseCase {
                 .withIssuer("@zonelearn")
                 .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
                 .withClaim("role", user.getRole().name())
-                .withSubject(user.getId())
+                .withSubject(user.getId().toString())
                 .sign(algorithm);
     }
 }

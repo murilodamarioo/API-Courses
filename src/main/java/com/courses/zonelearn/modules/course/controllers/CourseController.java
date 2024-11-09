@@ -31,8 +31,8 @@ public class CourseController {
     private ToggleCourseUseCase toggleCourseUseCase;
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody Course courseRecords) {
-        var response = this.createCourseUseCase.execute(courseRecords);
+    public ResponseEntity<Object> create(@Valid @RequestBody Course courseRecords, @RequestHeader("Authorization") String sub) {
+        var response = this.createCourseUseCase.execute(courseRecords, sub);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
