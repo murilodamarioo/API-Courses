@@ -53,6 +53,7 @@ Show all courses that match the filter
 | `name`       | `string` | python  |
 | `category`   | `string` | ai      |
 
+<br>
 
 > [!NOTE]
 > All requests below require an authenticated user of the TEACHER type.
