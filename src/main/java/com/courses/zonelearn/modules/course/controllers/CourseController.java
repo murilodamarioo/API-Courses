@@ -55,8 +55,8 @@ public class CourseController {
     }
 
     @PatchMapping("/{id}/active")
-    public ResponseEntity<Course> patch(@PathVariable UUID id) {
-        var response = this.toggleCourseUseCase.execute(id);
+    public ResponseEntity<Course> patch(@PathVariable UUID id, @RequestHeader("Authorization") String sub) {
+        var response = this.toggleCourseUseCase.execute(id, sub);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
