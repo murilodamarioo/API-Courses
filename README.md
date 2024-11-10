@@ -58,7 +58,7 @@ Show all courses that match the filter
 > All requests below require an authenticated user of the TEACHER type.
 
 > [!TIP]
-> the DELETE, PUT and PATCH methods can only be completed by the course owner.
+> The DELETE, PUT and PATCH methods can only be completed by the course owner.
 
 <h3 style="color: #ff9904">Create a course - POST</h3>
 
