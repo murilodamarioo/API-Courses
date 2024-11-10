@@ -1,9 +1,6 @@
 package com.courses.zonelearn.infra;
 
-import com.courses.zonelearn.exceptions.CourseNotFoundException;
-import com.courses.zonelearn.exceptions.EmailOrPasswordInvalidException;
-import com.courses.zonelearn.exceptions.FieldsException;
-import com.courses.zonelearn.exceptions.UserFoundException;
+import com.courses.zonelearn.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
@@ -41,6 +38,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EmailOrPasswordInvalidException.class)
     private ResponseEntity<RestErrorMessage> emailOrPasswordInvalidException(EmailOrPasswordInvalidException exception) {
+        var threatResponse = new RestErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(threatResponse);
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    private ResponseEntity<RestErrorMessage> unauthorizedAccessException(UnauthorizedAccessException exception) {
         var threatResponse = new RestErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(threatResponse);
     }
