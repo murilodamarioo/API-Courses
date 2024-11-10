@@ -43,14 +43,14 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        this.deleteCourseUseCase.execute(id);
+    public ResponseEntity<Void> delete(@PathVariable UUID id, @RequestHeader("Authorization") String sub) {
+        this.deleteCourseUseCase.execute(id, sub);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> put(@PathVariable UUID id, @RequestBody UpdateRequestCourseDTO request) {
-        var response = this.updateCourseUseCase.execute(id, request);
+    public ResponseEntity<Object> put(@PathVariable UUID id, @RequestBody UpdateRequestCourseDTO request, @RequestHeader("Authorization") String sub) {
+        var response = this.updateCourseUseCase.execute(id, request, sub);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
