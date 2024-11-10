@@ -1,9 +1,9 @@
 
-## API Documentation 
+## API Documentation 🚀
 
 <h3 style="color: #ff9904">Create User - POST</h3>
 
-```http
+```
   /api/user
 ```
 
@@ -18,7 +18,7 @@
 <h3 style="color: #ff9904">Authentication - POST</h3>
 The request creates a token for user session
 
-```http
+```
   /api/user/auth
 ```
 
@@ -31,21 +31,21 @@ The request creates a token for user session
 <h3 style="color: #107c10">Show Profile - GET</h3>
 The request gets data about the authentication user in the application.
 
-```http
+```
   /api/user/profile
 ```
 
 <h3 style="color: #107c10">List Courses - GET</h3>
 Show all courses registered.
 
-```http
+```
   /api/courses/list
 ```
 
 <h3 style="color: #107c10">List courses with query params - GET</h3>
 Show all courses that match the filter
 
-```http
+```
   /api/courses/list
 ```
 | Query Params | Type     | Example |
@@ -62,7 +62,7 @@ Show all courses that match the filter
 
 <h3 style="color: #ff9904">Create a course - POST</h3>
 
-```http
+```
   /api/courses
 ```
 | Body Params | Type     | Example              |
@@ -72,7 +72,7 @@ Show all courses that match the filter
 
 <h3 style="color: #e9190c">Delete a course - DELETE</h3>
 
-```http
+```
   /api/courses/{id}
 ```
 | Path Params | Type   | Example            |
@@ -82,7 +82,7 @@ Show all courses that match the filter
 
 <h3 style="color: #007acc">Update a course - PUT</h3>
 
-```http
+```
   /api/courses/{id}
 ```
 | Path Params | Type   | Example            |
@@ -98,7 +98,7 @@ Show all courses that match the filter
 <h3 style="color: #6e57d2">Change status course - PATCH</h3>
 The request changes the course status, between active and inactive
 
-```http
+```
   /api/courses/{id}/active
 ```
 | Path Params | Type   | Example            |
