@@ -28,7 +28,7 @@ public class UpdateCourseUseCase {
         String idFromToken = jwtProvider.getSubFromJwt(token);
         UUID userId = UUID.fromString(idFromToken);
 
-        if (!course.getCreatedBy().equals(userId)) throw new UnauthorizedAccessException("You are not allowed to edit this course");
+        if (!course.getCreatedBy().getId().equals(userId)) throw new UnauthorizedAccessException("You are not allowed to edit this course");
 
         if (request.getName() == null && request.getCategory() == null) {
             throw new IllegalArgumentException("At least one field (name or category) must be provided for update.");

@@ -42,9 +42,15 @@ public class CreateCourseUseCase {
                 () -> new UsernameNotFoundException("user not found")
         );
 
-        courseRecords.setCreatedBy(user.getId());
+        // Add the course to user's list of courses
+        user.getCourses().add(courseRecords);
+
+        // Set the course creator
+        courseRecords.setCreatedBy(user);
         courseRecords.setTeacher(user.getFirstName() + " " + user.getLastName());
 
+        // Save the course and update the user entity if needed
+        this.userRepository.save(user);
         return this.courseRepository.save(courseRecords);
     }
 }

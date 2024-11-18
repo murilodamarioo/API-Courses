@@ -27,7 +27,7 @@ public class ToggleCourseUseCase {
         String userId = jwtProvider.getSubFromJwt(token);
         UUID id = UUID.fromString(userId);
 
-        if (!course.getCreatedBy().equals(id)) {
+        if (!course.getCreatedBy().getId().equals(id)) {
             throw new UnauthorizedAccessException("User not authorized to toggle this course");
         }
 

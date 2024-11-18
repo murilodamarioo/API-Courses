@@ -8,7 +8,6 @@ import com.courses.zonelearn.providers.JWTProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,7 +28,7 @@ public class DeleteCourseUseCase {
         String idFromToken = jwtProvider.getSubFromJwt(token);
         UUID userId = UUID.fromString(idFromToken);
 
-        if (!course.getCreatedBy().equals(userId)) throw new UnauthorizedAccessException("You are not allowed to delete this course");
+        if (!course.getCreatedBy().getId().equals(userId)) throw new UnauthorizedAccessException("You are not allowed to delete this course");
 
         this.repository.deleteById(courseId);
     }

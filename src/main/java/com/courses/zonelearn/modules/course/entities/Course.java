@@ -1,6 +1,7 @@
 package com.courses.zonelearn.modules.course.entities;
 
 import com.courses.zonelearn.modules.course.enums.Status;
+import com.courses.zonelearn.modules.user.entities.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -19,7 +20,10 @@ public class Course {
     private UUID id;
     @NotBlank(message = "Name cannot be blank")
     private String name;
-    private UUID createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User createdBy;
     private String teacher;
 
     @NotBlank(message = "Category cannot be blank")
