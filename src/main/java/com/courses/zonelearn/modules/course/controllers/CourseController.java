@@ -1,5 +1,6 @@
 package com.courses.zonelearn.modules.course.controllers;
 
+import com.courses.zonelearn.modules.course.dto.CourseResponseDTO;
 import com.courses.zonelearn.modules.course.dto.UpdateRequestCourseDTO;
 import com.courses.zonelearn.modules.course.entities.Course;
 import com.courses.zonelearn.modules.course.useCases.*;
@@ -31,7 +32,7 @@ public class CourseController {
     private ToggleCourseUseCase toggleCourseUseCase;
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody Course courseRecords, @RequestHeader("Authorization") String sub) {
+    public ResponseEntity<CourseResponseDTO> create(@Valid @RequestBody Course courseRecords, @RequestHeader("Authorization") String sub) {
         var response = this.createCourseUseCase.execute(courseRecords, sub);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

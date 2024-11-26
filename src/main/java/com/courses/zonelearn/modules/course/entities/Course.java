@@ -18,6 +18,7 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     @NotBlank(message = "Name cannot be blank")
     private String name;
 
@@ -35,5 +36,4 @@ public class Course {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
 }

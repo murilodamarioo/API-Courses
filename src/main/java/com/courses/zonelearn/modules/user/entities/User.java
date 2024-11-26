@@ -6,14 +6,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Data
-@EqualsAndHashCode(exclude = "courses")
 @Entity(name = "users")
 public class User {
 
@@ -30,7 +26,7 @@ public class User {
 
     @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<Course> courses = new HashSet<>();
+    private List<Course> courses = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role = Role.STUDENT;
