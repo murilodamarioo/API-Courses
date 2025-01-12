@@ -50,9 +50,6 @@ public class CreateCourseUseCase {
 
         Course savedCourse = this.courseRepository.save(courseRecords);
 
-        user.getCourses().add(savedCourse);
-        this.userRepository.save(user);
-
         return mapToResponseDTO(savedCourse);
     }
 

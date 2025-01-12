@@ -24,10 +24,6 @@ public class User {
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Course> courses = new ArrayList<>();
-
     @Enumerated(EnumType.STRING)
     private Role role = Role.STUDENT;
 }
