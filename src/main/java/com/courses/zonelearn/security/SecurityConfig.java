@@ -17,6 +17,12 @@ public class SecurityConfig {
     @Autowired
     private SecurityFilter securityFilter;
 
+    private static final String[] SWAGGER_LIST = {
+            "/swagger-ui/*",
+            "/v3/api-docs/**",
+            "/swagger-resources/**"
+    };
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Disable Cross-Site Request Forgery
@@ -29,7 +35,8 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.PATCH, "/courses/{id}/active").hasRole("TEACHER")
                             .requestMatchers(HttpMethod.POST, "/courses").hasRole("TEACHER")
                             .requestMatchers(HttpMethod.PUT, "/courses/{id}").hasRole("TEACHER")
-                            .requestMatchers(HttpMethod.DELETE, "/courses/{id}").hasRole("TEACHER");
+                            .requestMatchers(HttpMethod.DELETE, "/courses/{id}").hasRole("TEACHER")
+                            .requestMatchers(SWAGGER_LIST).permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
