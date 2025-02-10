@@ -2,7 +2,6 @@ package com.courses.zonelearn.modules.user.usecases;
 
 import com.courses.zonelearn.modules.user.dto.ProfileUserResponseDTO;
 import com.courses.zonelearn.modules.user.entities.User;
-import com.courses.zonelearn.modules.user.enums.Role;
 import com.courses.zonelearn.modules.user.repository.UserRepository;
 import com.courses.zonelearn.providers.JWTProvider;
 import org.springframework.beans.factory.annotation.Autowired;
