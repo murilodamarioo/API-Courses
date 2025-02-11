@@ -3,6 +3,7 @@ package com.courses.zonelearn.modules.user.usecases;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.courses.zonelearn.exceptions.EmailOrPasswordInvalidException;
+import com.courses.zonelearn.modules.user.dto.AuthUserResponseDTO;
 import com.courses.zonelearn.modules.user.dto.LoginDTO;
 import com.courses.zonelearn.modules.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class AuthUserUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String execute(LoginDTO loginDTO) {
+    public AuthUserResponseDTO execute(LoginDTO loginDTO) {
         var user = this.repository.findByEmail(loginDTO.getEmail()).orElseThrow(
                 () -> new EmailOrPasswordInvalidException("E-mail/Password incorrect")
         );
@@ -39,11 +40,14 @@ public class AuthUserUseCase {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         // Generate token
-        return JWT.create()
+        var expiresIn = Instant.now().plus(Duration.ofHours(2));
+        var token = JWT.create()
                 .withIssuer("@zonelearn")
-                .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
+                .withExpiresAt(expiresIn)
                 .withClaim("role", user.getRole().name())
                 .withSubject(user.getId().toString())
                 .sign(algorithm);
+
+        return AuthUserResponseDTO.builder().access_token(token).expires_in(expiresIn.toEpochMilli()).build();
     }
 }
