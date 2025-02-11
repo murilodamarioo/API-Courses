@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ public class UserController {
                     ))
             })
     })
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<ProfileUserResponseDTO> get(@RequestHeader("Authorization") String sub) {
         var response = this.getProfileUseCase.execute(sub);
         return ResponseEntity.status(HttpStatus.OK).body(response);
