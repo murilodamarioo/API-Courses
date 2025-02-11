@@ -1,7 +1,11 @@
 package com.courses.zonelearn.infra;
 
+import com.courses.zonelearn.exceptions.FieldsException;
+import com.courses.zonelearn.exceptions.UserFoundException;
+import com.courses.zonelearn.modules.user.dto.ErrorMessageDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,5 +29,25 @@ public class GlobalExceptionHandler {
 
         var threatResponse = new RestErrorMessage(HttpStatus.BAD_REQUEST, errorMessages.toString());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatResponse);
+    }
+
+    @ExceptionHandler(FieldsException.class)
+    public ResponseEntity<ErrorMessageDTO> handleFieldsException(FieldsException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessageDTO(ex.getMessage()));
+    }
+
+    @ExceptionHandler(UserFoundException.class)
+    public ResponseEntity<ErrorMessageDTO> handleUserFoundException(UserFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessageDTO(ex.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorMessageDTO> handleGenericException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorMessageDTO("An unexpected error occurred"));
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ErrorMessageDTO> handleUserFoundException(UsernameNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessageDTO(ex.getMessage()));
     }
 }

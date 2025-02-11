@@ -2,6 +2,8 @@ package com.courses.zonelearn.modules.user.usecases;
 
 import com.courses.zonelearn.exceptions.FieldsException;
 import com.courses.zonelearn.exceptions.UserFoundException;
+import com.courses.zonelearn.modules.user.dto.CreateUserResponseDTO;
+import com.courses.zonelearn.modules.user.dto.ErrorMessageDTO;
 import com.courses.zonelearn.modules.user.entities.User;
 import com.courses.zonelearn.modules.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,8 @@ public class CreateUserUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User execute(User register) {
+    public CreateUserResponseDTO execute(User register) {
+
         if (register.getFirstName().isEmpty()) {
             throw new FieldsException("First name is required");
         }
@@ -33,6 +36,8 @@ public class CreateUserUseCase {
         var password = passwordEncoder.encode(register.getPassword());
         register.setPassword(password);
 
-        return this.repository.save(register);
+        this.repository.save(register);
+
+        return CreateUserResponseDTO.builder().message("User created successfully").build();
     }
 }
