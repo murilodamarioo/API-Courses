@@ -41,7 +41,8 @@ public class UserController {
                     @Content(schema = @Schema(
                             implementation = ProfileUserResponseDTO.class
                     ))
-            })
+            }),
+            @ApiResponse(responseCode = "400", description = "Cannot show profile")
     })
     @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<ProfileUserResponseDTO> get(@RequestHeader("Authorization") String sub) {
