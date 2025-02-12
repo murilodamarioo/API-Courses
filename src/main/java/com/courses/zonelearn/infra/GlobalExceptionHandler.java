@@ -1,11 +1,13 @@
 package com.courses.zonelearn.infra;
 
+import com.courses.zonelearn.exceptions.CourseNotFoundException;
 import com.courses.zonelearn.exceptions.FieldsException;
 import com.courses.zonelearn.exceptions.UserFoundException;
 import com.courses.zonelearn.modules.user.dto.ErrorMessageDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,7 +44,17 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ErrorMessageDTO> handleUserFoundException(UsernameNotFoundException ex) {
+    public ResponseEntity<ErrorMessageDTO> handleUserNotFoundException(UsernameNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessageDTO(ex.getMessage()));
+    }
+
+    @ExceptionHandler(CourseNotFoundException.class)
+    public ResponseEntity<ErrorMessageDTO> handleCourseNotFoundException(CourseNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessageDTO(ex.getMessage()));
+    }
+
+    @ExceptionHandler(TransactionSystemException.class)
+    public ResponseEntity<ErrorMessageDTO> handleTransactionSystemException(TransactionSystemException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessageDTO(ex.getMessage()));
     }
 }

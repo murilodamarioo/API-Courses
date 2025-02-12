@@ -2,6 +2,7 @@ package com.courses.zonelearn.modules.course.useCases;
 
 import com.courses.zonelearn.exceptions.CourseNotFoundException;
 import com.courses.zonelearn.exceptions.UnauthorizedAccessException;
+import com.courses.zonelearn.modules.course.dto.CourseDTO;
 import com.courses.zonelearn.modules.course.dto.UpdateRequestCourseDTO;
 import com.courses.zonelearn.modules.course.entities.Course;
 import com.courses.zonelearn.modules.course.repository.CourseRepository;
@@ -21,7 +22,7 @@ public class UpdateCourseUseCase {
     @Autowired
     private JWTProvider jwtProvider;
 
-    public Course execute(UUID id, UpdateRequestCourseDTO request, String sub) {
+    public CourseDTO execute(UUID id, UpdateRequestCourseDTO request, String sub) {
         Course course = this.repository.findById(id).orElseThrow(() -> new CourseNotFoundException("Non-existent course"));
 
         String token = sub.replace("Bearer ", "");
@@ -50,6 +51,14 @@ public class UpdateCourseUseCase {
             course.setCategory(trimmedCategory);
         }
 
-        return this.repository.save(course);
+        this.repository.save(course);
+
+        return CourseDTO.builder()
+                .id(course.getId())
+                .name(course.getName())
+                .category(course.getCategory())
+                .status(course.getStatus())
+                .updateAt(course.getUpdatedAt())
+                .build();
     }
 }

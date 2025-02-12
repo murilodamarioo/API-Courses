@@ -2,6 +2,7 @@ package com.courses.zonelearn.modules.course.useCases;
 
 import com.courses.zonelearn.exceptions.CourseNotFoundException;
 import com.courses.zonelearn.exceptions.UnauthorizedAccessException;
+import com.courses.zonelearn.modules.course.dto.ToggleResponseDTO;
 import com.courses.zonelearn.modules.course.entities.Course;
 import com.courses.zonelearn.modules.course.enums.Status;
 import com.courses.zonelearn.modules.course.repository.CourseRepository;
@@ -20,7 +21,7 @@ public class ToggleCourseUseCase {
     @Autowired
     private JWTProvider jwtProvider;
 
-    public Course execute(UUID courseId, String sub) {
+    public ToggleResponseDTO execute(UUID courseId, String sub) {
         Course course = this.repository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Non-existent course") );
 
         String token = sub.replace("Bearer ", "").trim();
@@ -33,6 +34,11 @@ public class ToggleCourseUseCase {
 
         course.setStatus(course.getStatus() == Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE);
 
-        return this.repository.save(course);
+        this.repository.save(course);
+
+        return ToggleResponseDTO.builder()
+                .name(course.getName())
+                .status(course.getStatus())
+                .build();
     }
 }
