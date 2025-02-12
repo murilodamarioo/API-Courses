@@ -41,11 +41,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessageDTO(ex.getMessage()));
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorMessageDTO> handleGenericException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorMessageDTO("An unexpected error occurred"));
-    }
-
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ErrorMessageDTO> handleUserFoundException(UsernameNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessageDTO(ex.getMessage()));

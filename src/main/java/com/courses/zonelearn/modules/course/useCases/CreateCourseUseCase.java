@@ -1,10 +1,9 @@
 package com.courses.zonelearn.modules.course.useCases;
 
 import com.courses.zonelearn.exceptions.FieldsException;
-import com.courses.zonelearn.modules.course.dto.CourseResponseDTO;
+import com.courses.zonelearn.modules.course.dto.CreateCourseResponseDTO;
 import com.courses.zonelearn.modules.course.entities.Course;
 import com.courses.zonelearn.modules.course.repository.CourseRepository;
-import com.courses.zonelearn.modules.user.dto.UserDTO;
 import com.courses.zonelearn.modules.user.entities.User;
 import com.courses.zonelearn.modules.user.repository.UserRepository;
 import com.courses.zonelearn.providers.JWTProvider;
@@ -26,7 +25,7 @@ public class CreateCourseUseCase {
     @Autowired
     private JWTProvider jwtProvider;
 
-    public CourseResponseDTO execute(Course courseRecords, String sub) {
+    public CreateCourseResponseDTO execute(Course courseRecords, String sub) {
 
         if (courseRecords.getName().length() < 10 || courseRecords.getName().length() > 100) {
             throw new FieldsException("The field name must be between 10 and 100 characters");
@@ -50,27 +49,12 @@ public class CreateCourseUseCase {
 
         Course savedCourse = this.courseRepository.save(courseRecords);
 
-        return mapToResponseDTO(savedCourse);
-    }
-
-    private CourseResponseDTO mapToResponseDTO(Course courseRecords) {
-        // Map course to course response dto
-        CourseResponseDTO courseDTO = new CourseResponseDTO();
-        courseDTO.setId(courseRecords.getId());
-        courseDTO.setName(courseRecords.getName());
-        courseDTO.setTeacher(courseRecords.getTeacher());
-        courseDTO.setCategory(courseRecords.getCategory());
-        courseDTO.setStatus(courseRecords.getStatus());
-        courseDTO.setCreatedAt(courseRecords.getCreatedAt());
-        courseDTO.setUpdatedAt(courseRecords.getUpdatedAt());
-
-        // Map user to user dto
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(courseRecords.getCreatedBy().getId());
-        userDTO.setFullName(courseRecords.getCreatedBy().getFirstName() + " " + courseRecords.getCreatedBy().getLastName());
-        courseDTO.setCreatedBy(userDTO);
-
-        return courseDTO;
+        return CreateCourseResponseDTO.builder()
+                .name(savedCourse.getName())
+                .category(savedCourse.getCategory())
+                .teacher(savedCourse.getTeacher())
+                .message("Course created successfully")
+                .build();
     }
 }
 

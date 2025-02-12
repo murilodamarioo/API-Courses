@@ -4,6 +4,7 @@ import com.courses.zonelearn.modules.course.enums.Status;
 import com.courses.zonelearn.modules.user.entities.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
+@Builder
 @Entity(name = "course")
 public class Course {
 

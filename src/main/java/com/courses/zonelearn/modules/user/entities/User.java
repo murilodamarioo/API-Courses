@@ -5,13 +5,17 @@ import com.courses.zonelearn.modules.user.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.*;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "users")
 public class User {
 

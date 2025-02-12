@@ -1,9 +1,19 @@
 package com.courses.zonelearn.modules.course.controllers;
 
-import com.courses.zonelearn.modules.course.dto.CourseResponseDTO;
+import com.courses.zonelearn.exceptions.FieldsException;
+import com.courses.zonelearn.modules.course.dto.CreateCourseRequestDTO;
+import com.courses.zonelearn.modules.course.dto.CreateCourseResponseDTO;
 import com.courses.zonelearn.modules.course.dto.UpdateRequestCourseDTO;
 import com.courses.zonelearn.modules.course.entities.Course;
+import com.courses.zonelearn.modules.course.repository.CourseRepository;
 import com.courses.zonelearn.modules.course.useCases.*;
+import com.courses.zonelearn.modules.user.dto.ErrorMessageDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +24,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/courses")
+@Tag(name = "Course", description = "Course routes")
 public class CourseController {
 
     @Autowired
@@ -32,8 +43,26 @@ public class CourseController {
     private ToggleCourseUseCase toggleCourseUseCase;
 
     @PostMapping
-    public ResponseEntity<CourseResponseDTO> create(@Valid @RequestBody Course courseRecords, @RequestHeader("Authorization") String sub) {
-        var response = this.createCourseUseCase.execute(courseRecords, sub);
+    @Operation(summary = "Register a course", description = "This route is responsible to register a course")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", content = {
+                    @Content(schema = @Schema(
+                            implementation = CreateCourseResponseDTO.class
+                    ))
+            }),
+            @ApiResponse(responseCode = "400", description = "The field name must be between 10 and 100 characters", content = {
+                    @Content(schema = @Schema(
+                            implementation = ErrorMessageDTO.class
+                    ))
+            })
+    })
+    public ResponseEntity<CreateCourseResponseDTO> create(@Valid @RequestBody CreateCourseRequestDTO courseRecords, @RequestHeader("Authorization") String sub) {
+        var courseEntity = Course.builder()
+                .name(courseRecords.getName())
+                .category(courseRecords.getCategory())
+                .build();
+
+        var response = this.createCourseUseCase.execute(courseEntity, sub);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("user")
-@Tag(name = "User", description = "Information about user")
+@Tag(name = "User", description = "User routes")
 public class UserController {
 
     @Autowired
