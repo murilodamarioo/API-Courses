@@ -5,7 +5,6 @@ import com.courses.zonelearn.modules.user.dto.LoginDTO;
 import com.courses.zonelearn.modules.user.entities.User;
 import com.courses.zonelearn.modules.user.enums.Role;
 import com.courses.zonelearn.modules.user.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,10 +13,17 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.util.ReflectionTestUtils;
 
 
+import java.time.Instant;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
@@ -65,6 +71,25 @@ public class AuthUserUseCaseTest {
     @Test
     @DisplayName("It should be able to authenticate")
     public void authUser_ValidData_AuthenticateUserSuccessfully() {
+        var user = User.builder()
+                .id(UUID.randomUUID())
+                .firstName("John")
+                .lastName("Doe")
+                .role(Role.TEACHER)
+                .email("john@email.com")
+                .password("123456")
+                .build();
 
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+
+        var authRequest = new LoginDTO(user.getEmail(), user.getPassword());
+        ReflectionTestUtils.setField(authUserUseCase, "secretKey", "TEST@KEY");
+
+        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
+
+        var response = authUserUseCase.execute(authRequest);
+
+        assertThat(response.getAccess_token()).isNotBlank();
+        assertThat(response.getExpires_in()).isGreaterThan(Instant.now().toEpochMilli());
     }
 }
