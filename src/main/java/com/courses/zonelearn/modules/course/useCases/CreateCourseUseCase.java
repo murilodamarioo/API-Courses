@@ -22,9 +22,6 @@ public class CreateCourseUseCase {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private JWTProvider jwtProvider;
-
     public CreateCourseResponseDTO execute(Course courseRecords, UUID userId) {
 
         if (courseRecords.getName().length() < 10 || courseRecords.getName().length() > 100) {
@@ -32,7 +29,7 @@ public class CreateCourseUseCase {
         }
 
         if (courseRecords.getCategory().length() < 2 || courseRecords.getCategory().length() > 100) {
-            throw new FieldsException("The field category must be between 10 and 100 characters");
+            throw new FieldsException("The field category must be between 2 and 100 characters");
         }
 
         User user = this.userRepository.findById(userId).orElseThrow(
