@@ -26,14 +26,7 @@ public class CreateSubscriptionUseCase {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private JWTProvider jwtProvider;
-
-    public SubscriptionResponseDTO execute(UUID courseId, String sub) {
-        String token = sub.replace("Bearer ", "").trim();
-        String idFromToken = jwtProvider.getSubFromJwt(token);
-        UUID userId = UUID.fromString(idFromToken);
-
+    public SubscriptionResponseDTO execute(UUID courseId, UUID userId) {
         this.userRepository.findById(userId).orElseThrow(
                 () -> new UsernameNotFoundException("User not found")
         );

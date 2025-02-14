@@ -16,17 +16,10 @@ public class DeleteCourseUseCase {
     @Autowired
     private CourseRepository repository;
 
-    @Autowired
-    private JWTProvider jwtProvider;
-
-    public void execute(UUID courseId, String sub) {
+    public void execute(UUID courseId, UUID userId) {
         Course course = this.repository.findById(courseId).orElseThrow(
                 () -> new CourseNotFoundException("The Id entered does not exist")
         );
-
-        String token = sub.replace("Bearer ", "").trim();
-        String idFromToken = jwtProvider.getSubFromJwt(token);
-        UUID userId = UUID.fromString(idFromToken);
 
         if (!course.getCreatedBy().getId().equals(userId)) throw new UnauthorizedAccessException("You are not allowed to delete this course");
 

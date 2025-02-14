@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,8 +48,10 @@ public class SubscriptionController {
             })
     })
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<SubscriptionResponseDTO> create(@PathVariable UUID id, @RequestHeader("Authorization") String sub) {
-        var response = this.createSubscriptionUseCase.execute(id, sub);
+    public ResponseEntity<SubscriptionResponseDTO> create(@PathVariable UUID id, HttpServletRequest request) {
+        var userId = request.getAttribute("user_id");
+
+        var response = this.createSubscriptionUseCase.execute(id, UUID.fromString(userId.toString()));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -63,8 +66,10 @@ public class SubscriptionController {
             })
     })
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<List<Subscription>> get(@RequestHeader("Authorization") String sub) {
-        var response = this.getSubscriptionsUseCase.execute(sub);
+    public ResponseEntity<List<Subscription>> get(HttpServletRequest request) {
+        var userId = request.getAttribute("user_id");
+
+        var response = this.getSubscriptionsUseCase.execute(UUID.fromString(userId.toString()));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

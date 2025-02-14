@@ -24,12 +24,8 @@ public class GetSubscriptionsUseCase {
     @Autowired
     private JWTProvider jwtProvider;
 
-    public List<Subscription> execute(String sub) {
+    public List<Subscription> execute(UUID userId) {
         List<Subscription> subscriptions;
-
-        String token =  sub.replace("Bearer ", "").trim();
-        String idFromToken = jwtProvider.getSubFromJwt(token);
-        UUID userId = UUID.fromString(idFromToken);
 
         this.userRepository.findById(userId).orElseThrow(
                 () -> new UsernameNotFoundException("User not found")

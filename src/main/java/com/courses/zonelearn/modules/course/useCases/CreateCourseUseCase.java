@@ -25,7 +25,7 @@ public class CreateCourseUseCase {
     @Autowired
     private JWTProvider jwtProvider;
 
-    public CreateCourseResponseDTO execute(Course courseRecords, String sub) {
+    public CreateCourseResponseDTO execute(Course courseRecords, UUID userId) {
 
         if (courseRecords.getName().length() < 10 || courseRecords.getName().length() > 100) {
             throw new FieldsException("The field name must be between 10 and 100 characters");
@@ -35,11 +35,7 @@ public class CreateCourseUseCase {
             throw new FieldsException("The field category must be between 10 and 100 characters");
         }
 
-        String token = sub.replace("Bearer ", "").trim();
-        String userId = this.jwtProvider.getSubFromJwt(token);
-        UUID id = UUID.fromString(userId);
-
-        User user = this.userRepository.findById(id).orElseThrow(
+        User user = this.userRepository.findById(userId).orElseThrow(
                 () -> new UsernameNotFoundException("user not found")
         );
 

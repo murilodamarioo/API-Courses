@@ -21,14 +21,10 @@ public class ToggleCourseUseCase {
     @Autowired
     private JWTProvider jwtProvider;
 
-    public ToggleResponseDTO execute(UUID courseId, String sub) {
+    public ToggleResponseDTO execute(UUID courseId, UUID userId) {
         Course course = this.repository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Non-existent course") );
 
-        String token = sub.replace("Bearer ", "").trim();
-        String userId = jwtProvider.getSubFromJwt(token);
-        UUID id = UUID.fromString(userId);
-
-        if (!course.getCreatedBy().getId().equals(id)) {
+        if (!course.getCreatedBy().getId().equals(userId)) {
             throw new UnauthorizedAccessException("User not authorized to toggle this course");
         }
 

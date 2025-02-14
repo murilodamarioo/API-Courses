@@ -16,15 +16,8 @@ public class GetProfileUseCase {
     @Autowired
     private UserRepository repository;
 
-    @Autowired
-    private JWTProvider jwtProvider;
-
-    public ProfileUserResponseDTO execute(String sub) {
-        String token = sub.replace("Bearer ", "").trim();
-        String userId = this.jwtProvider.getSubFromJwt(token);
-        UUID id = UUID.fromString(userId);
-
-        User user = this.repository.findById(id).orElseThrow(
+    public ProfileUserResponseDTO execute(UUID userId) {
+        User user = this.repository.findById(userId).orElseThrow(
                 () -> new UsernameNotFoundException("Cannot show profile")
         );
 

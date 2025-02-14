@@ -1,9 +1,8 @@
 package com.courses.zonelearn.modules.course.controllers;
 
-import com.courses.zonelearn.exceptions.FieldsException;
 import com.courses.zonelearn.modules.course.dto.*;
 import com.courses.zonelearn.modules.course.entities.Course;
-import com.courses.zonelearn.modules.course.repository.CourseRepository;
+import com.courses.zonelearn.modules.course.enums.Status;
 import com.courses.zonelearn.modules.course.useCases.*;
 import com.courses.zonelearn.modules.user.dto.ErrorMessageDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,13 +58,16 @@ public class CourseController {
             })
     })
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<CreateCourseResponseDTO> create(@Valid @RequestBody CreateCourseRequestDTO courseRecords, @RequestHeader("Authorization") String sub) {
+    public ResponseEntity<CreateCourseResponseDTO> create(@Valid @RequestBody CreateCourseRequestDTO courseRecords, HttpServletRequest request) {
         var courseEntity = Course.builder()
                 .name(courseRecords.getName())
                 .category(courseRecords.getCategory())
+                .status(Status.ACTIVE)
                 .build();
 
-        var response = this.createCourseUseCase.execute(courseEntity, sub);
+        var userId = request.getAttribute("user_id");
+
+        var response = this.createCourseUseCase.execute(courseEntity, UUID.fromString(userId.toString()));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -93,8 +96,10 @@ public class CourseController {
             })
     })
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<Void> delete(@PathVariable UUID id, @RequestHeader("Authorization") String sub) {
-        this.deleteCourseUseCase.execute(id, sub);
+    public ResponseEntity<Void> delete(@PathVariable UUID id, HttpServletRequest request) {
+        var userId = request.getAttribute("user_id");
+
+        this.deleteCourseUseCase.execute(id, UUID.fromString(userId.toString()));
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -113,8 +118,10 @@ public class CourseController {
             })
     })
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<CourseDTO> put(@PathVariable UUID id, @RequestBody UpdateRequestCourseDTO request, @RequestHeader("Authorization") String sub) {
-        var response = this.updateCourseUseCase.execute(id, request, sub);
+    public ResponseEntity<CourseDTO> put(@PathVariable UUID id, @RequestBody UpdateRequestCourseDTO updateRequestCourseDTO, HttpServletRequest request) {
+        var userId = request.getAttribute("user_id");
+
+        var response = this.updateCourseUseCase.execute(id, updateRequestCourseDTO, UUID.fromString(userId.toString()));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -133,8 +140,10 @@ public class CourseController {
             })
     })
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<ToggleResponseDTO> patch(@PathVariable UUID id, @RequestHeader("Authorization") String sub) {
-        var response = this.toggleCourseUseCase.execute(id, sub);
+    public ResponseEntity<ToggleResponseDTO> patch(@PathVariable UUID id, HttpServletRequest request) {
+        var userId = request.getAttribute("user_id");
+
+        var response = this.toggleCourseUseCase.execute(id, UUID.fromString(userId.toString()));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

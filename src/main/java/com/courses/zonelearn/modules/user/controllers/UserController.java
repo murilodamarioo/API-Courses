@@ -16,11 +16,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("user")
@@ -70,8 +73,10 @@ public class UserController {
             })
     })
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<ProfileUserResponseDTO> get(@RequestHeader("Authorization") String sub) {
-        var response = this.getProfileUseCase.execute(sub);
+    public ResponseEntity<ProfileUserResponseDTO> get(HttpServletRequest request) {
+        var userId = request.getAttribute("user_id");
+
+        var response = this.getProfileUseCase.execute(UUID.fromString(userId.toString()));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
