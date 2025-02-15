@@ -6,9 +6,7 @@ import com.github.javafaker.Faker;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 public class CourseFactory {
 
