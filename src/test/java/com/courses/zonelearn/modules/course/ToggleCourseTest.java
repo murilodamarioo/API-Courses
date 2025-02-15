@@ -2,13 +2,11 @@ package com.courses.zonelearn.modules.course;
 
 import com.courses.zonelearn.exceptions.CourseNotFoundException;
 import com.courses.zonelearn.exceptions.UnauthorizedAccessException;
-import com.courses.zonelearn.factory.CourseFactory;
 import com.courses.zonelearn.modules.course.entities.Course;
 import com.courses.zonelearn.modules.course.enums.Status;
 import com.courses.zonelearn.modules.course.repository.CourseRepository;
-import com.courses.zonelearn.modules.course.useCases.DeleteCourseUseCase;
+import com.courses.zonelearn.modules.course.useCases.ToggleCourseUseCase;
 import com.courses.zonelearn.modules.user.entities.User;
-import com.courses.zonelearn.modules.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,28 +26,28 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-public class DeleteCourseUseCaseTest {
+public class ToggleCourseTest {
 
     @InjectMocks
-    private DeleteCourseUseCase deleteCourseUseCase;
+    private ToggleCourseUseCase toggleCourseUseCase;
 
     @Mock
     private CourseRepository courseRepository;
 
     @Test
-    @DisplayName("It should not be able to delete a course with non existing id")
-    public void deleteCourse_NonExistingId_ThrowsException() {
-        UUID fakeId = UUID.randomUUID();
+    @DisplayName("It should not be able to toggle the course with non-existing id")
+    public void toggleCourse_NonExistingId_ThrowsException() {
+        UUID fakerCourseId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
 
-        assertThatThrownBy(() -> deleteCourseUseCase.execute(fakeId, userId))
+        assertThatThrownBy(() -> toggleCourseUseCase.execute(fakerCourseId, userId))
                 .isInstanceOf(CourseNotFoundException.class)
-                .hasMessage("The Id entered does not exist");
+                .hasMessage("Non-existent course");
     }
 
     @Test
-    @DisplayName("It should not be able to delete a course with invalid user id")
-    public void deleteCourse_InvalidUserId_ThrowsException() {
+    @DisplayName("It should not be able to toggle the course with invalid user id")
+    public void toggleCourse_InvalidUserId_ThrowsException() {
         var user = User.builder()
                 .id(UUID.randomUUID())
                 .firstName("Maria")
@@ -64,19 +64,18 @@ public class DeleteCourseUseCaseTest {
                 .status(Status.ACTIVE)
                 .build();
 
-        UUID fakeUserId = UUID.randomUUID();
+        UUID fakerUserId = UUID.randomUUID();
 
         when(courseRepository.findById(course.getId())).thenReturn(Optional.of(course));
 
-        assertThatThrownBy(() -> deleteCourseUseCase.execute(course.getId(), fakeUserId))
+        assertThatThrownBy(() -> toggleCourseUseCase.execute(course.getId(), fakerUserId))
                 .isInstanceOf(UnauthorizedAccessException.class)
-                .hasMessage("You are not allowed to delete this course");
+                .hasMessage("User not authorized to toggle this course");
     }
 
-
     @Test
-    @DisplayName("It should be able to delete a course")
-    public void deleteCourse_ValidData_DeleteCourseSuccessfully() {
+    @DisplayName("It should be able to toggle a course from ACTIVE to INACTIVE")
+    public void toggleCourse_ValidUserAndCourseId_ToggleCourseSuccessfully() {
         var user = User.builder()
                 .id(UUID.randomUUID())
                 .firstName("Maria")
@@ -86,18 +85,24 @@ public class DeleteCourseUseCaseTest {
                 .build();
 
         Course course = Course.builder()
+                .id(UUID.randomUUID())
                 .name("Create a chatbot with Python")
                 .category("IA")
                 .teacher("John Doe")
                 .createdBy(user)
                 .status(Status.ACTIVE)
+                .createdAt(LocalDateTime.now(ZoneId.systemDefault()))
+                .updatedAt(LocalDateTime.now(ZoneId.systemDefault()))
                 .build();
 
         when(courseRepository.findById(course.getId())).thenReturn(Optional.of(course));
 
-        deleteCourseUseCase.execute(course.getId(), user.getId());
+        var response = toggleCourseUseCase.execute(course.getId(), user.getId());
 
-        verify(courseRepository, times(1)).deleteById(course.getId());
+        assertThat(response).
+                hasFieldOrPropertyWithValue("name", course.getName())
+                .hasFieldOrPropertyWithValue("status", course.getStatus());
+
+        verify(courseRepository, times(1)).save(course);
     }
-
 }
