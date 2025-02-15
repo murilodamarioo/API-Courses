@@ -50,7 +50,7 @@ public class AuthUserUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to authenticate user with wrong email")
+    @DisplayName("It should not be able to authenticate user with wrong password")
     public void authUser_InvalidPassword_ThrowsException() {
         var user = User.builder()
                 .firstName("John")
