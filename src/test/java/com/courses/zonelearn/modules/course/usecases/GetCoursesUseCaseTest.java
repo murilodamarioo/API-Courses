@@ -1,4 +1,4 @@
-package com.courses.zonelearn.modules.course;
+package com.courses.zonelearn.modules.course.usecases;
 
 import com.courses.zonelearn.factory.CourseFactory;
 import com.courses.zonelearn.modules.course.entities.Course;

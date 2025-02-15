@@ -1,14 +1,12 @@
-package com.courses.zonelearn.modules.course;
+package com.courses.zonelearn.modules.course.usecases;
 
 import com.courses.zonelearn.exceptions.CourseNotFoundException;
 import com.courses.zonelearn.exceptions.UnauthorizedAccessException;
-import com.courses.zonelearn.factory.CourseFactory;
 import com.courses.zonelearn.modules.course.entities.Course;
 import com.courses.zonelearn.modules.course.enums.Status;
 import com.courses.zonelearn.modules.course.repository.CourseRepository;
 import com.courses.zonelearn.modules.course.useCases.DeleteCourseUseCase;
 import com.courses.zonelearn.modules.user.entities.User;
-import com.courses.zonelearn.modules.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
