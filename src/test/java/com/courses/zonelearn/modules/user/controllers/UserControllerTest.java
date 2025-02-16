@@ -1,4 +1,4 @@
-package com.courses.zonelearn.modules.user.controller;
+package com.courses.zonelearn.modules.user.controllers;
 
 
 import com.courses.zonelearn.modules.user.dto.ProfileUserResponseDTO;

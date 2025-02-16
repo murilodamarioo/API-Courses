@@ -1,9 +1,7 @@
-package com.courses.zonelearn.modules.user.controller;
+package com.courses.zonelearn.modules.user.controllers;
 
 import com.courses.zonelearn.exceptions.EmailOrPasswordInvalidException;
 import com.courses.zonelearn.modules.user.dto.LoginDTO;
-import com.courses.zonelearn.modules.user.entities.User;
-import com.courses.zonelearn.modules.user.enums.Role;
 import com.courses.zonelearn.modules.user.repository.UserRepository;
 import com.courses.zonelearn.modules.user.usecases.AuthUserUseCase;
 import com.courses.zonelearn.utils.TestUtils;
@@ -26,10 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.print.attribute.standard.Media;
-
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
