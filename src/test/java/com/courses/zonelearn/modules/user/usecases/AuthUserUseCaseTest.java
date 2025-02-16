@@ -40,7 +40,7 @@ public class AuthUserUseCaseTest {
 
 
     @Test
-    @DisplayName("It should not be able to authenticate user with wrong e-mail")
+    @DisplayName("USE CASE - It should not be able to authenticate user with wrong e-mail")
     public void authUser_InvalidEmail_ThrowsException() {
         LoginDTO authRequest = new LoginDTO("WRONG_EMAIL", "WRONG_PASSWORD");
 
@@ -50,7 +50,7 @@ public class AuthUserUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to authenticate user with wrong password")
+    @DisplayName("USE CASE - It should not be able to authenticate user with wrong password")
     public void authUser_InvalidPassword_ThrowsException() {
         var user = User.builder()
                 .firstName("John")
@@ -69,7 +69,7 @@ public class AuthUserUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should be able to authenticate")
+    @DisplayName("USE CASE - It should be able to authenticate")
     public void authUser_ValidData_AuthenticateUserSuccessfully() {
         var user = User.builder()
                 .id(UUID.randomUUID())

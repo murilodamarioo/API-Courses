@@ -54,7 +54,7 @@ public class CreateSubscriptionUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to subscribe with invalid user id")
+    @DisplayName("USE CASE - It should not be able to subscribe with invalid user id")
     public void CreateSubscription_InvalidUserId_ThrowsException() {
 
         assertThatThrownBy(() -> createSubscriptionUseCase.execute(null, userId))
@@ -63,7 +63,7 @@ public class CreateSubscriptionUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to subscribe with non-existing course id")
+    @DisplayName("USE CASE - It should not be able to subscribe with non-existing course id")
     public void CreateSubscription_NonExistingCourseId_ThrowsException() {
         when(userRepository.findById(userId)).thenReturn(Optional.of(new User()));
 
@@ -73,7 +73,7 @@ public class CreateSubscriptionUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should be able to subscribe in a course")
+    @DisplayName("USE CASE - It should be able to subscribe in a course")
     public void CreateSubscription_ValidData_CreateSubscriptionSuccessfully() {
         when(userRepository.findById(userId)).thenReturn(Optional.of(new User()));
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(new Course()));

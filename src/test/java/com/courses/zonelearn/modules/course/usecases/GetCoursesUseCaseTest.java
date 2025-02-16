@@ -33,7 +33,7 @@ public class GetCoursesUseCaseTest {
     private CourseRepository courseRepository;
 
     @Test
-    @DisplayName("It should be able to get courses without filters")
+    @DisplayName("USE CASE - It should be able to get courses without filters")
     public void getCourses_WithoutFilters_GetCoursesSuccessfully() {
         List<Course> mockCourses = new ArrayList<>();
         
@@ -49,7 +49,7 @@ public class GetCoursesUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should be able to get courses by name filter")
+    @DisplayName("USE CASE - It should be able to get courses by name filter")
     public void getCourses_ByNameFilter_GetCoursesSuccessfully() {
         List<Course> mockCourses = new ArrayList<>();
 
@@ -75,7 +75,7 @@ public class GetCoursesUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should be able to get courses by category filter")
+    @DisplayName("USE CASE - It should be able to get courses by category filter")
     public void getCourses_ByCategoryFilter_GetCoursesSuccessfully() {
         List<Course> mockCourses = new ArrayList<>();
 
@@ -100,7 +100,7 @@ public class GetCoursesUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should be able to get courses by name and category filters")
+    @DisplayName("USE CASE - It should be able to get courses by name and category filters")
     public void getCourses_ByNameAndCategoryFilters_GetCoursesSuccessfully() {
         List<Course> mockCourses = new ArrayList<>();
 

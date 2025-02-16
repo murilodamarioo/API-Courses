@@ -30,7 +30,7 @@ public class CreateUserUseCaseTest {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    @DisplayName("It should not be able to create user with first name empty")
+    @DisplayName("USE CASE - It should not be able to create user with first name empty")
     public void createUser_FirstNameEmpty_ThrowsException() {
         var user = User.builder()
                 .firstName("")
@@ -49,7 +49,7 @@ public class CreateUserUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to create user with short password")
+    @DisplayName("USE CASE - It should not be able to create user with short password")
     public void createUser_ShortPassword_ThrowsException() {
         var user = User.builder()
                 .firstName("John")
@@ -67,7 +67,7 @@ public class CreateUserUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to create user with existing user email")
+    @DisplayName("USE CASE - It should not be able to create user with existing user email")
     public void createUser_ExistingUserEmail_ThrowsException() {
         var user = User.builder()
                 .firstName("Maria")
@@ -94,7 +94,7 @@ public class CreateUserUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should be able to create user")
+    @DisplayName("USE CASE - It should be able to create user")
     public void createUser_ValidData_CreatesUserSuccessfully() {
         var user = User.builder()
                 .firstName("John")

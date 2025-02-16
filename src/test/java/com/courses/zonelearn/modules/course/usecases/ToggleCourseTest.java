@@ -35,7 +35,7 @@ public class ToggleCourseTest {
     private CourseRepository courseRepository;
 
     @Test
-    @DisplayName("It should not be able to toggle the course with non-existing id")
+    @DisplayName("USE CASE - It should not be able to toggle the course with non-existing id")
     public void toggleCourse_NonExistingId_ThrowsException() {
         UUID fakerCourseId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
@@ -46,7 +46,7 @@ public class ToggleCourseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to toggle the course with invalid user id")
+    @DisplayName("USE CASE - It should not be able to toggle the course with invalid user id")
     public void toggleCourse_InvalidUserId_ThrowsException() {
         var user = User.builder()
                 .id(UUID.randomUUID())
@@ -74,7 +74,7 @@ public class ToggleCourseTest {
     }
 
     @Test
-    @DisplayName("It should be able to toggle a course from ACTIVE to INACTIVE")
+    @DisplayName("USE CASE - It should be able to toggle a course from ACTIVE to INACTIVE")
     public void toggleCourse_ValidUserAndCourseId_ToggleCourseSuccessfully() {
         var user = User.builder()
                 .id(UUID.randomUUID())

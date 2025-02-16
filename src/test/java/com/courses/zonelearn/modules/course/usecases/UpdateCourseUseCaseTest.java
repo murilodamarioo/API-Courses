@@ -35,7 +35,7 @@ public class UpdateCourseUseCaseTest {
     private CourseRepository courseRepository;
 
     @Test
-    @DisplayName("It should not be able to update with non-existing course id")
+    @DisplayName("USE CASE - It should not be able to update with non-existing course id")
     public void updateCourse_NonExistingCourseId_ThrowsException() {
         UUID fakeCourseId = UUID.randomUUID();
 
@@ -45,7 +45,7 @@ public class UpdateCourseUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to update with invalid user id")
+    @DisplayName("USE CASE - It should not be able to update with invalid user id")
     public void updateCourse_InvalidUserId_ThrowsException() {
         var user = User.builder()
                 .id(UUID.randomUUID())
@@ -73,7 +73,7 @@ public class UpdateCourseUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to update a course when no fields are provided")
+    @DisplayName("USE CASE - It should not be able to update a course when no fields are provided")
     public void updateCourse_FieldsNotProvided_ThrowsException() {
         var user = User.builder()
                 .id(UUID.randomUUID())
@@ -103,7 +103,7 @@ public class UpdateCourseUseCaseTest {
 
 
     @Test
-    @DisplayName("It should not be able to update a course with blank name ")
+    @DisplayName("USE CASE - It should not be able to update a course with blank name ")
     public void updateCourse_FieldNameBlank_ThrowsException() {
         var user = User.builder()
                 .id(UUID.randomUUID())
@@ -134,7 +134,7 @@ public class UpdateCourseUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to update a course with blank category")
+    @DisplayName("USE CASE - It should not be able to update a course with blank category")
     public void updateCourse_FieldCategoryBlank_ThrowsException() {
         var user = User.builder()
                 .id(UUID.randomUUID())
@@ -165,7 +165,7 @@ public class UpdateCourseUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should be able to update a course")
+    @DisplayName("USE CASE - It should be able to update a course")
     public void updateCourse_ValidData_UpdateCourseSuccessfully() {
         var user = User.builder()
                 .id(UUID.randomUUID())

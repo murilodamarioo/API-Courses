@@ -46,7 +46,7 @@ public class GetSubscriptionsUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to fetch subscriptions with invalid id")
+    @DisplayName("USE CASE - It should not be able to fetch subscriptions with invalid id")
     public void getSubscriptions_InvalidUserId_ThrowsException() {
 
         assertThatThrownBy(() -> getSubscriptionsUseCase.execute(userId))
@@ -55,7 +55,7 @@ public class GetSubscriptionsUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should be able to fetch subscriptions")
+    @DisplayName("USE CASE - It should be able to fetch subscriptions")
     public void getSubscriptions_ValidData_GetSubscriptionsSuccessfully() {
         when(userRepository.findById(userId)).thenReturn(Optional.of(new User()));
 

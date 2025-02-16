@@ -39,7 +39,7 @@ public class CreateCourseUseCaseTest {
     private UserRepository userRepository;
 
     @Test
-    @DisplayName("It should not be able to create course with less than 10 characters in the name")
+    @DisplayName("USE CASE - It should not be able to create course with less than 10 characters in the name")
     public void createCourse_NameWithLessThanTenCharacters_ThrowsException() {
         UUID userId = UUID.randomUUID();
 
@@ -57,7 +57,7 @@ public class CreateCourseUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to create a course with less than 10 characters in the category")
+    @DisplayName("USE CASE - It should not be able to create a course with less than 10 characters in the category")
     public void createCourse_categoryWithLessThanTenCharacters_ThrowsException() {
         UUID userId = UUID.randomUUID();
 
@@ -74,7 +74,7 @@ public class CreateCourseUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to create a course with invalid user id")
+    @DisplayName("USE CASE - It should not be able to create a course with invalid user id")
     public void createCourse_InvalidUserId_ThrowsException() {
         UUID userId = UUID.randomUUID();
 
@@ -91,7 +91,7 @@ public class CreateCourseUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should be able to create a course with valid fields and user id")
+    @DisplayName("USE CASE - It should be able to create a course with valid fields and user id")
     public void createCourse_ValidData_CreateCourseSuccessfully() {
         var user = User.builder()
                 .id(UUID.randomUUID())

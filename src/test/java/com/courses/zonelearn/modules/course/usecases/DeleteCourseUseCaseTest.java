@@ -33,7 +33,7 @@ public class DeleteCourseUseCaseTest {
     private CourseRepository courseRepository;
 
     @Test
-    @DisplayName("It should not be able to delete a course with non existing id")
+    @DisplayName("USE CASE - It should not be able to delete a course with non existing id")
     public void deleteCourse_NonExistingId_ThrowsException() {
         UUID fakeId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
@@ -44,7 +44,7 @@ public class DeleteCourseUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should not be able to delete a course with invalid user id")
+    @DisplayName("USE CASE - It should not be able to delete a course with invalid user id")
     public void deleteCourse_InvalidUserId_ThrowsException() {
         var user = User.builder()
                 .id(UUID.randomUUID())
@@ -73,7 +73,7 @@ public class DeleteCourseUseCaseTest {
 
 
     @Test
-    @DisplayName("It should be able to delete a course")
+    @DisplayName("USE CASE - It should be able to delete a course")
     public void deleteCourse_ValidData_DeleteCourseSuccessfully() {
         var user = User.builder()
                 .id(UUID.randomUUID())

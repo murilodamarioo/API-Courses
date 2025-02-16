@@ -29,7 +29,7 @@ public class GetProfileUseCaseTest {
     private UserRepository userRepository;
 
     @Test
-    @DisplayName("It should not be able to get user profile data")
+    @DisplayName("USE CASE - It should not be able to get user profile data")
     public void getProfile_InvalidUserId_ThrowsException() {
         UUID fakeId = UUID.randomUUID();
 
@@ -39,7 +39,7 @@ public class GetProfileUseCaseTest {
     }
 
     @Test
-    @DisplayName("It should be able to get user profile data")
+    @DisplayName("USE CASE - It should be able to get user profile data")
     public void getProfile_ValidUserId_GetDataSuccessfully() {
         var user = User.builder()
                 .id(UUID.randomUUID())
