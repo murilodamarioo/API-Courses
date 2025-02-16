@@ -3,10 +3,12 @@ package com.courses.zonelearn.modules.user.dto;
 import com.courses.zonelearn.modules.user.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileUserResponseDTO {
